@@ -1,0 +1,78 @@
+extends base
+block content
+    title= title
+    link(rel='stylesheet', href='./stylesheets/vendor/vegas/vegas.min.css')
+    div.container
+        div.row
+            div.col-sm-6.col-md-4.col-md-offset-4
+                .login-body.center
+                    article.container-login.center-block
+                        section
+                            ul#top-bar.nav.nav-tabs.nav-justified
+                                li.active
+                                    a(href='#register-access') Register
+                                    li
+                                        a(href='./auth') Login
+                                div(style="margin-top: 10%;")
+                                .tab-content.tabs-login.col-lg-12.col-md-12.col-sm-12.cols-xs-12
+                                    #register-access.tab-pane.fade.active.in
+                                        h2
+                                            i.glyphicon.glyphicon-log-in
+                                            |  Chat Room - Register
+                                        form#form-signin.form-horizontal.form-signin(method='post', accept-charset='utf-8', autocomplete='off', role='form', name='form-signin')
+                                            input(type="hidden", name="_csrf", value=csrfToken)
+                                            if error
+                                                .form-group
+                                                    .alert.alert-danger.alert-dismissible(role='alert')
+                                                        button.close(type='button', data-dismiss='alert', aria-label='Close')
+                                                            span(aria-hidden='true') ×
+                                                        strong Error! #{error}
+                                            .form-group
+                                                span(id="reauth-email", class="reauth-email")
+                                            .form-group
+                                                label.sr-only(for='firstname') Firstname
+                                                input#firstname.form-control(type='text', name='firstname', placeholder='Firstname', tabindex='1', value='', required)
+                                            .form-group
+                                                label.sr-only(for='lastname') Lastname
+                                                input#lastname.form-control(type='text', name='lastname', placeholder='Lastname', tabindex='1', value='', required)
+                                            .form-group
+                                                label.sr-only(for='email') Email
+                                                input#email.form-control(type='text', name='email', placeholder='Email', tabindex='1', value='', required)
+                                            .form-group
+                                                label.sr-only(for='password') Password
+                                                input#password.form-control(type='password', name='password', placeholder='Password', value='', tabindex='2', required)
+                                            .checkbox
+                                                label.control-label(for='terms')
+                                                    input#terms(type='checkbox', name='terms', value='1', tabindex='3')
+                                                    |  I agree with terms and conditions.
+                                            br
+                                            .form-group
+                                                button#submit.btn.btn-lg.btn-danger(type='submit', name='sign-me-up', tabindex='5') Sign up
+
+    script(type='text/javascript' src='http://zeptojs.com/zepto.min.js')
+    script(type='text/javascript' src='./javascripts/vendor/vegas/vegas.min.js')
+    script(type='text/javascript' src='./javascripts/vendor/vegas.js')
+    script(type='text/javascript' src='./javascripts/auth/auth.js')
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $(".close").click(function () {
+                $(this).alert('close');
+            });
+
+            // Init Background plugin vegas
+            var _vegas = new background();
+            _vegas.init();
+
+            var _auth = new auth();
+            $('#form-signin').submit(function () {
+                var email = $("#email").val();
+                var fullname = $("#firstname").val() + ' ' + $("#lastname").val();
+
+                if (!_auth.isSetProfileLocalStorage()) {
+                    _auth.setProfileLocalStorageData(fullname, email);
+                } else {
+                    _auth.clearProfileLocalStorega();
+                    _auth.setProfileLocalStorageData(fullname, email);
+                }
+            })
+        });

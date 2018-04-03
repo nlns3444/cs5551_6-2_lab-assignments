@@ -1,0 +1,75 @@
+extends base
+block content
+    title= title
+    link(rel='stylesheet', href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css")
+    link(rel='stylesheet', href='./stylesheets/vendor/vegas/vegas.min.css')
+    link(rel='stylesheet', href='./stylesheets/index.css')
+    div.container-full
+        div.row
+            div.col-lg-12.text-center.v-center
+                h1 Welcome to Chat Room
+                p.lead A Simple Chat Room with Authentication ;)
+                br
+                br
+                br
+                form#form-index.col-lg-12.form-horizontal(method='post', accept-charset='utf-8', autocomplete='off', role='form')
+                    input(type="hidden", name="_csrf", value=csrfToken)
+                    div.input-group(style='width:340px;text-align:center;margin:0 auto;')
+                        input#email.form-control.input-lg(title="Enter with your email to register.", placeholder='Enter your email address', type='text')
+                        span.input-group-btn
+                            button.btn.btn-lg.btn-danger(type='submit') Sign In
+        div.row
+            div.col-lg-12.text-center.v-center(style='font-size:39pt;')
+                a(href='#')
+                    i.icon-google-plus
+                a(href='#')
+                    i.icon-facebook
+                a(href='#')
+                    i.icon-twitter
+                a(href='#')
+                    i.icon-github
+                a(href='#')
+                    i.icon-pinterest
+                br
+                br
+                br
+                br
+        div.btn-group.dropup.pull-right(style="margin-right: 10px;")
+            button.btn.btn-danger(type='button') Background Config
+            button.btn.btn-danger.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='false')
+                span.caret
+                span.sr-only Toggle Dropdown
+            ul.dropdown-menu(role='menu')
+                li
+                    a(href='#') Upload Image
+                li
+                    a(href='#') Remove Current Image
+                li
+                    a(href='#') Clear data
+
+    script(type='text/javascript' src='./javascripts/vendor/localStorage.js')
+    script(type='text/javascript' src='http://zeptojs.com/zepto.min.js')
+    script(type='text/javascript' src='./javascripts/vendor/vegas/vegas.min.js')
+    script(type='text/javascript' src='./javascripts/vendor/vegas.js')
+    script(type='text/javascript' src='./javascripts/auth/auth.js')
+    script(type='text/javascript' src='./javascripts/index/index.js')
+    script(type='text/javascript').
+        $(document).ready(function () {
+            var _local = storage();
+
+            // Init Background plugin vegas
+            var _vegas = new background();
+            _vegas.init([
+                { 'src': '//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-189107.jpg' },
+                { 'src': '//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-91143.jpg' },
+                { 'src': '//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-2255.jpg' },
+                { 'src': './images/backgrounds/344.jpg' }
+            ]);
+
+            // Init auth
+            var _auth = new auth();
+
+            // Init index
+            var _index= new index();
+            _index.init(_auth);
+        });
